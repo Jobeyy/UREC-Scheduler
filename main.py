@@ -1,18 +1,4 @@
-# Worker Scheduler UI (Tkinter) + OR-Tools CP-SAT
-# Features:
-# - 12-hour day (configurable)
-# - Shifts are 4 or 5 hours (configurable)
-# - Employees have 1-hour "class" blocks (unavailability)
-# - Coverage:
-#     * MAX workers/hour is HARD (never exceed)
-#     * MIN workers/hour is SOFT (allowed to be unmet; shows UNDERSTAFF)
-# - Shift labels: Opening / Mid / Closing (display only)
-# - Multiple demo datasets selectable from a dropdown
-# - Understaff hours are RED in the coverage output
-# - Export coverage to CSV
-# - Split view (Assignments top / Coverage bottom) using a resizable PanedWindow
-#
-# Install: pip install ortools
+
 
 import csv
 import tkinter as tk
@@ -20,9 +6,9 @@ from tkinter import ttk, messagebox, filedialog
 from ortools.sat.python import cp_model
 
 
-# ----------------------------
+
 # Helpers (time + labeling)
-# ----------------------------
+
 def format_hour(hour: int) -> str:
     """Converts 24h integer hour to 12h time string."""
     hour = hour % 24
@@ -50,9 +36,8 @@ def label_shift(day_start: int, day_end: int, shift_start: int) -> str:
         return "Closing"
 
 
-# ----------------------------
+
 # Scheduling core (OR-Tools)
-# ----------------------------
 def build_candidate_shifts(day_start_hour: int, day_length_hours: int, allowed_lengths=(4, 5)):
     day_end_hour = day_start_hour + day_length_hours
     shifts = []
@@ -207,9 +192,9 @@ def schedule_workers_softmin_hardmax(
     }
 
 
-# ----------------------------
+
 # Demo datasets
-# ----------------------------
+
 DEMO_DATASETS = {
     "Feasible (clean schedule)": {
         "day_start": 8,
@@ -278,9 +263,9 @@ DEMO_DATASETS = {
 }
 
 
-# ----------------------------
+
 # Tkinter UI
-# ----------------------------
+
 class SchedulerUI(tk.Tk):
     def __init__(self):
         super().__init__()
